@@ -96,6 +96,8 @@ function NewForm({ pw }: { pw: string }) {
     if (!name.trim() || !knownSince) return setError("Name and the date you met are required.");
     if (!m26 || !m25 || !hours || !streak) return setError("Fill in all statistics.");
     if (funnyType === "image" && !funnyImg) return setError("Upload the funniest moment image.");
+    if (!achievements.some((a) => a.trim())) return setError("Add at least one achievement.");
+    if (!awards.some((a) => a.text.trim())) return setError("Add text for at least one award.");
     setBusy(true);
     try {
       const [a, fi, c, au, fav] = await Promise.all([

@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Wrapped data lives in one `wrappeds` table (RLS on, no policies); all reads/writes go through server functions in `src/lib/wrapped.functions.ts` using the admin client — friends never query the database directly.
+- Admin access is a shared password checked server-side against the `ADMIN_PASSWORD` secret; uploads use signed upload URLs into the private `wrapped-media` bucket, and reads return short-lived signed URLs.
+- Quiz/streak/percentage rules are pure functions in `src/lib/wrapped-logic.ts` with tests beside them.

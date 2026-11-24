@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AdminNewRouteImport } from './routes/admin_.new'
 import { Route as WrappedCodeIndexRouteImport } from './routes/wrapped.$code.index'
+import { Route as WrappedCodeStageRouteImport } from './routes/wrapped.$code.$stage'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,17 +35,24 @@ const WrappedCodeIndexRoute = WrappedCodeIndexRouteImport.update({
   path: '/wrapped/$code/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WrappedCodeStageRoute = WrappedCodeStageRouteImport.update({
+  id: '/wrapped/$code/$stage',
+  path: '/wrapped/$code/$stage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/admin/new': typeof AdminNewRoute
+  '/wrapped/$code/$stage': typeof WrappedCodeStageRoute
   '/wrapped/$code/': typeof WrappedCodeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/admin/new': typeof AdminNewRoute
+  '/wrapped/$code/$stage': typeof WrappedCodeStageRoute
   '/wrapped/$code': typeof WrappedCodeIndexRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,29 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/admin_/new': typeof AdminNewRoute
+  '/wrapped/$code/$stage': typeof WrappedCodeStageRoute
   '/wrapped/$code/': typeof WrappedCodeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/admin/new' | '/wrapped/$code/'
+  fullPaths:
+    '/' | '/admin' | '/admin/new' | '/wrapped/$code/$stage' | '/wrapped/$code/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/admin/new' | '/wrapped/$code'
-  id: '__root__' | '/' | '/admin' | '/admin_/new' | '/wrapped/$code/'
+  to: '/' | '/admin' | '/admin/new' | '/wrapped/$code/$stage' | '/wrapped/$code'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/admin_/new'
+    | '/wrapped/$code/$stage'
+    | '/wrapped/$code/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AdminNewRoute: typeof AdminNewRoute
+  WrappedCodeStageRoute: typeof WrappedCodeStageRoute
   WrappedCodeIndexRoute: typeof WrappedCodeIndexRoute
 }
 
@@ -99,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WrappedCodeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wrapped/$code/$stage': {
+      id: '/wrapped/$code/$stage'
+      path: '/wrapped/$code/$stage'
+      fullPath: '/wrapped/$code/$stage'
+      preLoaderRoute: typeof WrappedCodeStageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AdminNewRoute: AdminNewRoute,
+  WrappedCodeStageRoute: WrappedCodeStageRoute,
   WrappedCodeIndexRoute: WrappedCodeIndexRoute,
 }
 export const routeTree = rootRouteImport
